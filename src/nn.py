@@ -23,6 +23,10 @@ class InfluenzaNetwork:
         self.testOutput = None
         self.testInfo = None
         self.testPercentage = testPercentage
+        if (self.fields is None): 
+            self.fields = ["EP_POV", "EP_UNEMP", "EP_PCI", "EP_NOHSDP", "EP_AGE65", "EP_AGE17", "EP_DISABL", "EP_SNGPNT", "EP_MINRTY", "EP_LIMENG", "EP_MUNIT", "EP_MOBILE", "EP_CROWD", "EP_NOVEH", "EP_GROUPQ", "EP_UNINSUR"]
+        if (self.testPercentage is None): 
+            self.testPercentage = 0.20
     
     def getDataFromFile(self, fileName):
         '''
@@ -68,7 +72,7 @@ class InfluenzaNetwork:
                 
         # Split into test and training sets based on "testPercentage"
         if testPercentage > 1 or testPercentage < 0: 
-            testPercentage = 0.25
+            testPercentage = 0.20
         trainingSplit = int(float(len(inputList)) * (1-testPercentage))
         while len(trainingInput) < trainingSplit: 
             randomPos = random.randint(0, len(inputList)-1)
@@ -126,13 +130,11 @@ class InfluenzaNetwork:
         self.model.fit(self.trainingInput, self.trainingOutput)
         
     def testModel_statistics(self):
-        #print(self.trainingInput, self.testInput, self.trainingOutput, self.testOutput)
         results = self.model.predict(self.testInput)
-        #print(results)
         percentErrors = []
-        for resultIndex in range(len(results)): 
+        for index in range(len(results)): 
             # Calculate percent error
-            PE = abs((self.testOutput[resultIndex] - results[resultIndex])/self.testOutput[resultIndex]) * 100
+            PE = abs((self.testOutput[index] - results[index])/self.testOutput[index]) * 100
             percentErrors.append(PE)
         return statistics.mean(percentErrors)
         

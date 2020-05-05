@@ -31,6 +31,7 @@ def modelData_barGraph(networkObject, numPoints, bestFit=False):
         predicted, real, metadata = _modelData_barGraph_bestFit(networkObject,allPredictedOutput, allRealOutput, numPoints)
     else: 
         predicted, real, metadata = _modelData_barGraph_random(networkObject,allPredictedOutput, allRealOutput, numPoints)
+    print(predicted, real, metadata)
     rangePerPoint, increment = np.arange(numPoints), 0.00
     figure = plt.figure()
     #ax = figure.add_axes([1,1,1,1])
